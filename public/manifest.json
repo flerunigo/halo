@@ -1,0 +1,21 @@
+{
+  "name": "Halo",
+  "short_name": "Halo",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ffffff",
+  "description": "Generative canvas experiment.",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "128x128 64x64 32x32 24x24 16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "sharing.png",
+      "sizes": "512x512 256x256",
+      "type": "image/png"
+    }
+  ]
+}
