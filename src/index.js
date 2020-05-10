@@ -8,6 +8,4 @@ import './css/index.css'
 
 import { Scene } from './scene'
 
-$(document).ready(() => {
-  const scene = new Scene()
-})
+const scene = new Scene()

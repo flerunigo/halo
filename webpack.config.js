@@ -2,6 +2,7 @@ const webpack = require("webpack")
 const path = require("path")
 
 let config = {
+  mode: "production",
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "./public"),
