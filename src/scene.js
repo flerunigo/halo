@@ -17,9 +17,15 @@ export class Scene {
     // Encapsulation du CanvasRenderingContext2D, gestion des proportions, etc.
     this.renderer = new Renderer(canvasId)
 
-    // Initialisation et dessin
-    this.initScene()
-    this.drawScene()
+    this.rk=[]
+    this.rv=[]
+
+    this.vitesse = 0.06;
+    this.fps = 12;
+
+    this.redraw()
+    setInterval(this.redraw, 1000/this.fps);
+
 
     // Lecture d'un éventuel événement en cas de redimension de la page
     window.onresize = (event) => {
@@ -28,6 +34,45 @@ export class Scene {
     }
   }
 
+  // Initialisation et dessin
+  redraw = () =>
+  {
+    this.renderer.canvas.getContext("2d").clearRect(0, 0, this.renderer.canvas.width, this.renderer.canvas.height);
+
+    this.initScene()
+    this.drawScene()
+  }
+
+  rvit = (k) =>
+  {
+    var vmin=0.002;
+    var v = 0; 
+       while (v>-vmin && v<vmin)
+          v= this.vitesse*(Math.random()-0.5);
+       return v
+  }
+  
+  rando= (k) =>
+  {
+    if (this.rk[k]==null) 
+    {
+      this.rk[k]=Math.random();
+      this.rv[k]=this.rvit(k);
+    }
+    this.rk[k]+=this.rv[k];
+    if (this.rk[k]<0)
+    {
+      this.rk[k]=0;
+      this.rv[k]=this.rvit(k);
+    }
+    if (this.rk[k]>1)
+    {
+      this.rk[k]=1;
+      this.rv[k]=this.rvit(k);
+    }
+    return this.rk[k];
+  }
+ 
   /**
    * Initialisation des paramètres de la scène.
    * Essentiellement, on dessine 18 tores légèrement décentrés, de rayons
@@ -52,20 +97,22 @@ export class Scene {
     this.g = []
     this.b = []
 
+
+    var k=0 
     for (let i = 0; i < this.length; i++) {
       // Centre légèrement décentré pour chaque objet
-      this.x[i] = 5 * (Math.random() - 0.5)
-      this.y[i] = 5 * (Math.random() - 0.5)
+      this.x[i] = 5 * (this.rando(k++) - 0.5)
+      this.y[i] = 5 * (this.rando(k++) - 0.5)
       // Rayon et largeur de base
-      this.radius[i] = 20 + 5 * Math.random()
-      this.lineWidth[i] = 5 + 2 * Math.random()
+      this.radius[i] = 20 + 5 * this.rando(k++)
+      this.lineWidth[i] = 5 + 2 * this.rando(k++)
 
       // Extérieur et intérieur de chaque objet
       this.radiusInner[i] = []
       this.radiusOuter[i] = []
       for (let j = 0; j < 8; j++) {
-        this.radiusOuter[i].push(this.radius[i] + this.lineWidth[i] + 5 * (Math.random() - 0.5))
-        this.radiusInner[i].push(this.radius[i] - this.lineWidth[i] + 5 * (Math.random() - 0.5))
+        this.radiusOuter[i].push(this.radius[i] + this.lineWidth[i] + 5 * (this.rando(k++) - 0.5))
+        this.radiusInner[i].push(this.radius[i] - this.lineWidth[i] + 5 * (this.rando(k++) - 0.5))
       }
 
       // Couleur : alternance entre rouge, vert et bleu
